@@ -23,8 +23,10 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+node_modules
 
 # CDK outputs
 cdk.out/
 aws-cdk/cdk.out/
 aws-cdk/node_modules/
+
