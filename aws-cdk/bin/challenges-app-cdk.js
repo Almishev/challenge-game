@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("source-map-support/register");
+require("dotenv/config");
+const cdk = require("aws-cdk-lib");
+const challenges_app_stack_1 = require("../lib/challenges-app-stack");
+const app = new cdk.App();
+const env = {
+    account: process.env.CDK_DEFAULT_ACCOUNT,
+    region: process.env.CDK_DEFAULT_REGION || 'eu-central-1',
+};
+new challenges_app_stack_1.ChallengesAppStack(app, 'ChallengesAppStack', {
+    env,
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2hhbGxlbmdlcy1hcHAtY2RrLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiY2hhbGxlbmdlcy1hcHAtY2RrLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUNBLHVDQUFxQztBQUNyQyx5QkFBdUI7QUFDdkIsbUNBQW1DO0FBQ25DLHNFQUFpRTtBQUVqRSxNQUFNLEdBQUcsR0FBRyxJQUFJLEdBQUcsQ0FBQyxHQUFHLEVBQUUsQ0FBQztBQUUxQixNQUFNLEdBQUcsR0FBRztJQUNWLE9BQU8sRUFBRSxPQUFPLENBQUMsR0FBRyxDQUFDLG1CQUFtQjtJQUN4QyxNQUFNLEVBQUUsT0FBTyxDQUFDLEdBQUcsQ0FBQyxrQkFBa0IsSUFBSSxjQUFjO0NBQ3pELENBQUM7QUFFRixJQUFJLHlDQUFrQixDQUFDLEdBQUcsRUFBRSxvQkFBb0IsRUFBRTtJQUNoRCxHQUFHO0NBQ0osQ0FBQyxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiIyEvdXNyL2Jpbi9lbnYgbm9kZVxyXG5pbXBvcnQgJ3NvdXJjZS1tYXAtc3VwcG9ydC9yZWdpc3Rlcic7XHJcbmltcG9ydCAnZG90ZW52L2NvbmZpZyc7XHJcbmltcG9ydCAqIGFzIGNkayBmcm9tICdhd3MtY2RrLWxpYic7XHJcbmltcG9ydCB7IENoYWxsZW5nZXNBcHBTdGFjayB9IGZyb20gJy4uL2xpYi9jaGFsbGVuZ2VzLWFwcC1zdGFjayc7XHJcblxyXG5jb25zdCBhcHAgPSBuZXcgY2RrLkFwcCgpO1xyXG5cclxuY29uc3QgZW52ID0ge1xyXG4gIGFjY291bnQ6IHByb2Nlc3MuZW52LkNES19ERUZBVUxUX0FDQ09VTlQsXHJcbiAgcmVnaW9uOiBwcm9jZXNzLmVudi5DREtfREVGQVVMVF9SRUdJT04gfHwgJ2V1LWNlbnRyYWwtMScsXHJcbn07XHJcblxyXG5uZXcgQ2hhbGxlbmdlc0FwcFN0YWNrKGFwcCwgJ0NoYWxsZW5nZXNBcHBTdGFjaycsIHtcclxuICBlbnYsXHJcbn0pO1xyXG4iXX0=

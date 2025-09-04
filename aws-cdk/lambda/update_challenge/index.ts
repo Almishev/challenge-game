@@ -31,6 +31,11 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
     ExpressionAttributeValues: values,
     ReturnValues: 'ALL_NEW',
   }));
-
-  return { statusCode: 200, body: JSON.stringify({ ok: true }) };
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+  };
+  return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
 };

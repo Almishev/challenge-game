@@ -21,6 +21,11 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
   };
 
   await ddb.send(new PutCommand({ TableName: tableName, Item: item }));
-
-  return { statusCode: 201, body: JSON.stringify(item) };
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+  };
+  return { statusCode: 201, headers, body: JSON.stringify(item) };
 };

@@ -16,6 +16,11 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
     TableName: tableName,
     Key: { challenge_id: id, category_id: category },
   }));
-
-  return { statusCode: 204, body: '' };
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+  };
+  return { statusCode: 204, headers, body: '' };
 };

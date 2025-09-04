@@ -9,9 +9,16 @@ export const handler = async () => {
 
   const res = await ddb.send(new ScanCommand({ TableName: tableName }));
 
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+  };
+
   return {
     statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(res.Items ?? []),
   };
 };

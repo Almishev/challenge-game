@@ -16,9 +16,21 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
       KeyConditionExpression: 'category_id = :c',
       ExpressionAttributeValues: { ':c': category },
     }));
-    return { statusCode: 200, body: JSON.stringify(res.Items ?? []) };
+    const headers = {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+    };
+    return { statusCode: 200, headers, body: JSON.stringify(res.Items ?? []) };
   }
 
   const res = await ddb.send(new ScanCommand({ TableName: tableName }));
-  return { statusCode: 200, body: JSON.stringify(res.Items ?? []) };
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
+  };
+  return { statusCode: 200, headers, body: JSON.stringify(res.Items ?? []) };
 };

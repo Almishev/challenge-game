@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import './App.css';
 import CategorySelector from './components/CategorySelector';
 import ChallengeWheel from './components/ChallengeWheel';
-import { challengesData } from './data/challengesData';
+ 
+import { getCategories, getChallengesByCategory } from './services/api';
 
 function App() {
   const [selectedChallenge, setSelectedChallenge] = useState(null);
@@ -24,13 +25,36 @@ function App() {
 
   const Home = () => {
     const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+      let mounted = true;
+      getCategories()
+        .then((data) => {
+          if (!mounted) return;
+          // Подразбираме, че API връща масив от имена или обекти с name
+          const list = Array.isArray(data)
+            ? data.map((c) => (typeof c === 'string' ? c : c.name))
+            : [];
+          setCategories(list);
+        })
+        .catch(() => setError('Грешка при зареждане на категории'))
+        .finally(() => setLoading(false));
+      return () => {
+        mounted = false;
+      };
+    }, []);
     const handleCategorySelect = (category) => {
       setSelectedChallenge(null);
       navigate(`/category/${encodeURIComponent(category)}`);
     };
+    if (loading) return <p>Зареждане...</p>;
+    if (error) return <p>{error}</p>;
     return (
       <CategorySelector 
-        categories={Object.keys(challengesData)} 
+        categories={categories}
         onSelect={handleCategorySelect}
       />
     );
@@ -40,7 +64,24 @@ function App() {
     const navigate = useNavigate();
     const { name } = useParams();
     const category = decodeURIComponent(name || '');
-    const challenges = challengesData[category] || [];
+    const [challenges, setChallenges] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+      let mounted = true;
+      setLoading(true);
+      getChallengesByCategory(category)
+        .then((items) => {
+          if (!mounted) return;
+          setChallenges(Array.isArray(items) ? items : []);
+        })
+        .catch(() => setError('Грешка при зареждане на предизвикателства'))
+        .finally(() => setLoading(false));
+      return () => {
+        mounted = false;
+      };
+    }, [category]);
 
     const handleBack = () => {
       setSelectedChallenge(null);
@@ -53,11 +94,14 @@ function App() {
           <button onClick={handleBack} className="back-btn">← Назад към категории</button>
           <h2>📂 {category}</h2>
         </div>
+        {loading && <p>Зареждане...</p>}
+        {error && <p>{error}</p>}
+        {!loading && !error && (
         <ChallengeWheel 
           ref={wheelRef}
           challenges={challenges}
           onChallengeSelect={handleChallengeSelect}
-        />
+        />)}
         {selectedChallenge && (
           <div className="selected-challenge" ref={selectedChallengeRef}>
             <h3>🎉 Избрано предизвикателство:</h3>
